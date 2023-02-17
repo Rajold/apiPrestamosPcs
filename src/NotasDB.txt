@@ -1,0 +1,94 @@
+Enter password:
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 8
+Server version: 8.0.31 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2022, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| companydb          |
+| information_schema |
+| mysql              |
+| performance_schema |
+| sys                |
++--------------------+
+5 rows in set (0.14 sec)
+
+mysql> create database prestamos_pcs
+    -> ;
+Query OK, 1 row affected (0.12 sec)
+
+mysql> use prestamos_pcs
+Database changed
+
+mysql> create table Usuarios(
+    -> Pk_Identificacion bigint not null primary key,
+    -> Nombre varchar (50) not null,
+    -> Rol enum("Instructor", "Aprendiz", "Pasante", "Administrativo") not null,
+    -> Telefono varchar (20) null);
+Query OK, 0 rows affected (0.73 sec)
+
+mysql> create table Equipos(
+    ->     Pk_Serie varchar(30) not null primary key,
+    ->     Marca varchar(20) not null,
+    ->     Modelo varchar(20) not null,
+    ->     Nota text (500) not null
+    ->     );
+Query OK, 0 rows affected (0.19 sec)
+
+mysql> create table Prestamos(
+    ->     Pk_Prestamo int not null auto_increment primary key,
+    ->     Fecha_Prestamo date not null,
+    ->     Fecha_Devolucion date not null,
+    ->     Estado enum("Prestado", "Devuelto") not null,
+    ->     Observacion text (500) null,
+    ->     Fk_Serie varchar(30) not null,
+    ->     Fk_Identificacion bigint not null
+    ->     );
+Query OK, 0 rows affected (0.19 sec)
+
+mysql> show tables;
++-------------------------+
+| Tables_in_prestamos_pcs |
++-------------------------+
+| equipos                 |
+| prestamos               |
+| usuarios                |
++-------------------------+
+3 rows in set (0.00 sec)
+
+mysql> describe equipos;
++----------+-------------+------+-----+---------+-------+
+| Field    | Type        | Null | Key | Default | Extra |
++----------+-------------+------+-----+---------+-------+
+| Pk_Serie | varchar(30) | NO   | PRI | NULL    |       |
+| Marca    | varchar(20) | NO   |     | NULL    |       |
+| Modelo   | varchar(20) | NO   |     | NULL    |       |
+| Nota     | text        | NO   |     | NULL    |       |
++----------+-------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+mysql> insert into equipos values
+    -> (12345678, "Dell", "NewModel", "bla bla bla"),
+    -> (123456789, "Dell", "NewModel", "bla bla bla");
+Query OK, 2 rows affected (0.07 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql> select * from equipos;
++-----------+-------+----------+-------------+
+| Pk_Serie  | Marca | Modelo   | Nota        |
++-----------+-------+----------+-------------+
+| 12345678  | Dell  | NewModel | bla bla bla |
+| 123456789 | Dell  | NewModel | bla bla bla |
++-----------+-------+----------+-------------+
+2 rows in set (0.00 sec)
+
