@@ -9,7 +9,7 @@ app.use(equiposRoutes)
 app.use((req, res, next) => //en caso de solicitar una ruta que no existe
 {
     res.status(404).json({
-        message: 'Esta ruta no existe! '
+        message: 'Esta ruta no existe!, busque otra '
     })
 })
 
