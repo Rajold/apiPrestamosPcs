@@ -15,7 +15,7 @@ export const getUsuarios= async (req, res) => {
 //Consultar por Identificación
 export const getUsuario= async(req, res) => {
    try { 
-    const {Pk_Serie}= req.params;
+    const {Pk_Identificacion}= req.params;
     const [rows]= await pool.query("select *from usuarios where Pk_Identificacion= ?", [
         Pk_Identificacion,
     ]);
