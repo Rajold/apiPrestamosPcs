@@ -2,6 +2,7 @@ import express from "express";
 import equiposRoutes from './routes/equipos.routes.js'
 import usuariosRoutes from './routes/usuarios.routes.js'
 
+
 const app = express()
 
 app.use(express.json())
