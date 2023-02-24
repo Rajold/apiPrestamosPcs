@@ -47,6 +47,7 @@ export const createUsuario= async (req, res) => {
     }
 };
 
+
 //Actualizar
 export const updateUsuario= async(req, res) => {
     try {
