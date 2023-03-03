@@ -49,14 +49,14 @@ export const login = async ( req, resp ) => {
             informacion = { Pk_Identificacion_SIREP, Nombre_SIREP, Tipo_Usuario_SIREP, Ficha_SIREP}
 
             let sqlFind = `select * from usuarios where Pk_Identificacion = ${Pk_Identificacion_SIREP}`
-            pool.query(sqlFind,(error,datos) => {
+            await pool.query(sqlFind, async(error,datos) => {
                 if ( error ) console.log ('Error al constultar la base de datos');
                 if ( datos.length > 0 ) return resp.json({ valide: true, msj: 'Accedio un usuario ya registrado', datos});
                 else {
                     let sqlInsert = `insert into usuarios (Pk_Identificacion, Nombre, Rol, Id_Ficha )
                     values('${Pk_Identificacion_SIREP}', '${Nombre_SIREP}', '${Tipo_Usuario_SIREP}','${Ficha_SIREP}')`
 
-                    pool.query( sqlInsert,(error, datos) => {
+                    await pool.query( sqlInsert,(error, datos) => {
                         if ( error ) console.log ('Ocurrio un error de primer grado en login :>> \n', error);
                         else {
                             return resp.json({valide: true, msj: 'Accedio un nuevo usuario', datos: informacion})
