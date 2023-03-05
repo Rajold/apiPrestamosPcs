@@ -3,7 +3,7 @@ import axios from 'axios';
 import { pool } from '../db.js';
 
 // <---- Controlador para el acceso, ya tiene export y lo puede importar donde lo necesite ---->
-export const login = async ( req, resp ) => {
+export const login = async ( req, res ) => {
     try {
         let { user, pass } = req.body
 
@@ -22,7 +22,7 @@ export const login = async ( req, resp ) => {
 
                 // <---- Validación de token ---->
             let key = response.data.token
-            if ( !key ) return resp.json({confirm: false, msj: 'La información es incorrecta'})
+            if ( !key ) return res.json({confirm: false, msj: 'La información es incorrecta'})
 
             Pk_Identificacion_SIREP = response.data.user.id;
             Nombre_SIREP = response.data.user.name;
@@ -51,7 +51,7 @@ export const login = async ( req, resp ) => {
             let sqlFind = `select * from usuarios where Pk_Identificacion = ${Pk_Identificacion_SIREP}`
             await pool.query(sqlFind, async(error,datos) => {
                 if ( error ) console.log ('Error al constultar la base de datos');
-                if ( datos.length > 0 ) return resp.json({ valide: true, msj: 'Accedio un usuario ya registrado', datos});
+                if ( datos.length > 0 ) return res.json({ valide: true, msj: 'Accedio un usuario ya registrado', datos});
                 else {
                     let sqlInsert = `insert into usuarios (Pk_Identificacion, Nombre, Rol, Id_Ficha )
                     values('${Pk_Identificacion_SIREP}', '${Nombre_SIREP}', '${Tipo_Usuario_SIREP}','${Ficha_SIREP}')`
@@ -59,7 +59,7 @@ export const login = async ( req, resp ) => {
                     await pool.query( sqlInsert,(error, datos) => {
                         if ( error ) console.log ('Ocurrio un error de primer grado en login :>> \n', error);
                         else {
-                            return resp.json({valide: true, msj: 'Accedio un nuevo usuario', datos: informacion})
+                            return res.json({valide: true, msj: 'Accedio un nuevo usuario', datos: informacion})
                         }
                     })
                 }
