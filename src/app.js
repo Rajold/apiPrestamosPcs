@@ -3,7 +3,7 @@ import equiposRoutes from './routes/equipos.routes.js'
 import usuariosRoutes from './routes/usuarios.routes.js'
 import prestamosRoutes from './routes/prestamos.routes.js'
 import { login } from "./controllers/login.controllers.js";
-import logIntentRoutes from "./routes/login2.routes.js";
+import logIntentRoutes from "./routes/logIntent.routes.js";
 import body from "body-parser";
 
 
