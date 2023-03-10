@@ -15,7 +15,7 @@ app.use(express.json())
 app.use(equiposRoutes)
 app.use(usuariosRoutes)
 app.use(prestamosRoutes)
-app.use(login)
+//app.use(login)
 app.use(logIntentRoutes)
 
 app.use((req, res, next) => //en caso de solicitar una ruta que no existe

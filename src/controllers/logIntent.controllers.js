@@ -16,48 +16,50 @@ export const logIntent= async (req, res) => {
         //acceder usando axios
         const response = await axios.post(url, {user: user, password: pass});
 
-        console.log(response)
+        console.log( response)  //Muestra los datos cargados desde Sirep
 
         //validar mediante Token.
         let theKey = response.data.token;
-        console.log(theKey)
+        console.log(theKey) //Muestra el token ya validado
         if (!theKey) return res.json({ confirm: false,  message: 'Los datos ingresados no coinciden'})
 
         Pk_Identificacion_SIREP = response.data.user.id;
         Nombre_SIREP = response.data.user.name;
-        Tipo_Usuario_SIREP = response.data.user.type;
+        //Tipo_Usuario_SIREP = response.data.user.type;
         Ficha_SIREP = response.data.user.ficha;
-        informacion = {Pk_Identificacion_SIREP, Nombre_SIREP, Tipo_Usuario_SIREP, Ficha_SIREP}
-        console.log(informacion)
+        informacion = {Pk_Identificacion_SIREP, Nombre_SIREP, Ficha_SIREP}
+        console.log(informacion)    //Muestra los datos cargados en el objeto información
         
-        try {
+        /*try {
         const [sqlFind]= await pool.query(`SELECT * FROM usuarios WHERE Pk_Identificacion= ${Pk_Identificacion_SIREP} `);
         res.json(sqlFind);
         }catch (error) {
             return res.status(500).json({
                 message: 'Error en la consulta'
             })
-        }
+        }*/
 
-        try {
+        //try {
         //guardar informacion en la base de datos
-        const {Pk_Identificacion_SIREP, Nombre_SIREP, Tipo_Usuario_SIREP,Ficha_SIREP}= req.body
-        const [sqlInsert]= await pool.query(`insert into usuarios (Pk_Identificacion, Nombre, Rol, Ficha) 
-        values (?, ?, ?, ?) `);
-        [Pk_Identificacion_SIREP, Nombre_SIREP, Tipo_Usuario_SIREP, Ficha_SIREP]
-        res.status(201).json({Pk_Identificacion, Nombre, Rol, Id_Ficha})
+        //const {informacion}= req.body
+        let sql=`insert into usuarios (Pk_Identificacion, Nombre, Id_Ficha) values (${informacion.Pk_Identificacion_SIREP}, '${informacion.Nombre_SIREP}', ${informacion.Ficha_SIREP})`
+        console.log(sql);
+        const [sqlInsert]= await pool.query(sql);
+        res.status(201).json({Pk_Identificacion, Nombre, Id_Ficha})
         
 
-        }catch (error) {
+       /* }catch (error) {
             return res.status(500).json({
                 message: 'Error al insertar informacion'
             })
-        }
+        }*/
 
         
 
 
-    } catch (error) {
-        
+    }catch (error) {
+        return res.status(500).json({
+            message: 'Error al insertar informacion'
+        })
     }
 }
